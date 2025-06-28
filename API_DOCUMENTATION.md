@@ -14,48 +14,138 @@ https://fake-user-data-api-wuds.onrender.com
 
 No authentication required. This API is free to use for development and testing purposes.
 
-## Endpoints
+## Pricing
 
-### 1. Get API Information
+| Plan | Price | Requests/Month | Features |
+|------|-------|----------------|----------|
+| **BASIC** | $0.00 | 100 | JSON responses, basic endpoints |
+| **PRO** | $10.00 | 1,000 | CSV/XML export, higher limits |
+| **ULTRA** | $25.00 | 10,000 | Priority support, custom formats |
 
-**GET** `/`
+---
 
-Returns API documentation and available endpoints.
+## 🔍 **1. API Information**
+```
+GET /
+```
+**Description:** Get API documentation and available endpoints  
+**Response:** API info, pricing, and endpoint list
 
-**Response:**
-```json
-{
-  "message": "Fake User Data API",
-  "version": "1.0.0",
-  "description": "An API that generates realistic fake user data for testing and development",
-  "endpoints": {
-    "GET /user": "Generate 1 fake user",
-    "GET /users?count=10": "Generate multiple fake users (default: 10, max: 100)",
-    "GET /health": "Health check",
-    "GET /ping": "Simple health check for monitoring"
-  },
-  "example": {
-    "single": "/user",
-    "multiple": "/users?count=5"
-  }
-}
+---
+
+## 👤 **2. Generate Single User**
+```
+GET /user
+```
+**Description:** Generate one fake user with complete profile  
+**Response:** Single user object with all data
+
+---
+
+## 👥 **3. Generate Multiple Users**
+```
+GET /users
+```
+**Query Parameters:**
+- `count` (optional): Number of users (1-100, default: 10)
+
+**Examples:**
+```
+GET /users
+GET /users?count=5
+GET /users?count=50
 ```
 
-### 2. Generate Single User
+---
 
-**GET** `/user`
+## 📊 **4. Generate Users in CSV Format** *(PRO/ULTRA)*
+```
+GET /users/csv
+```
+**Query Parameters:**
+- `count` (optional): Number of users (1-100, default: 10)
 
-Generates a single fake user with complete profile data.
+**Examples:**
+```
+GET /users/csv
+GET /users/csv?count=20
+```
 
-**Response:**
+**Response:** CSV file download
+
+---
+
+## 📄 **5. Generate Users in XML Format** *(PRO/ULTRA)*
+```
+GET /users/xml
+```
+**Query Parameters:**
+- `count` (optional): Number of users (1-100, default: 10)
+
+**Examples:**
+```
+GET /users/xml
+GET /users/xml?count=15
+```
+
+**Response:** XML file download
+
+---
+
+## 🏥 **6. Health Check (Detailed)**
+```
+GET /health
+```
+**Description:** Detailed health status with uptime and version  
+**Response:** Service status, uptime, version info
+
+---
+
+## 🏥 **7. Health Check (Simple)**
+```
+GET /ping
+```
+**Description:** Simple health check for monitoring  
+**Response:** Basic status with timestamp
+
+---
+
+## 📝 **Complete cURL Examples**
+
+```bash
+# Get API info
+curl https://fake-user-data-api-wuds.onrender.com/
+
+# Get single user
+curl https://fake-user-data-api-wuds.onrender.com/user
+
+# Get 5 users
+curl https://fake-user-data-api-wuds.onrender.com/users?count=5
+
+# Get 20 users in CSV format (PRO/ULTRA)
+curl https://fake-user-data-api-wuds.onrender.com/users/csv?count=20
+
+# Get 10 users in XML format (PRO/ULTRA)
+curl https://fake-user-data-api-wuds.onrender.com/users/xml?count=10
+
+# Health check
+curl https://fake-user-data-api-wuds.onrender.com/health
+
+# Simple ping
+curl https://fake-user-data-api-wuds.onrender.com/ping
+```
+
+## 🎯 **Response Examples**
+
+### **Single User Response:**
 ```json
 {
   "success": true,
   "data": {
-    "id": "fb80075f-0973-474e-939c-0f2c877d0ff7",
+    "id": "uuid",
     "name": {
       "first": "John",
-      "last": "Doe",
+      "last": "Doe", 
       "full": "John Doe"
     },
     "email": "john.doe@email.com",
@@ -84,142 +174,47 @@ Generates a single fake user with complete profile data.
         "latitude": 40.7128,
         "longitude": -74.0060
       }
-    },
-    "createdAt": "2023-01-15T10:30:00.000Z",
-    "updatedAt": "2023-12-01T14:20:00.000Z"
+    }
   }
 }
 ```
 
-### 3. Generate Multiple Users
-
-**GET** `/users`
-
-Generates multiple fake users.
-
-**Query Parameters:**
-- `count` (optional): Number of users to generate (1-100, default: 10)
-
-**Example Request:**
-```
-GET /users?count=5
-```
-
-**Response:**
+### **Multiple Users Response:**
 ```json
 {
   "success": true,
   "count": 5,
   "data": [
-    {
-      "id": "uuid-1",
-      "name": {
-        "first": "Jane",
-        "last": "Smith",
-        "full": "Jane Smith"
-      },
-      "email": "jane.smith@email.com",
-      "phone": "+1-555-987-6543",
-      "address": {
-        "street": "456 Oak Ave",
-        "city": "Los Angeles",
-        "state": "CA",
-        "country": "United States",
-        "postalCode": "90210",
-        "full": "456 Oak Ave, Los Angeles, CA, United States 90210"
-      },
-      "profile": {
-        "photo": "https://randomuser.me/api/portraits/women/32.jpg",
-        "age": 25,
-        "gender": "female",
-        "birthday": "1998-07-22"
-      },
-      "employment": {
-        "company": "Design Studio",
-        "jobTitle": "UX Designer",
-        "department": "Design"
-      },
-      "location": {
-        "coordinates": {
-          "latitude": 34.0522,
-          "longitude": -118.2437
-        }
-      }
-    }
-    // ... more users
+    // Array of user objects
   ]
 }
 ```
 
-### 4. Health Check
-
-**GET** `/health`
-
-Returns detailed health status of the API.
-
-**Response:**
-```json
-{
-  "status": "OK",
-  "timestamp": "2023-12-01T14:20:00.000Z",
-  "uptime": 3600.5,
-  "version": "1.0.0",
-  "service": "Fake User Data API"
-}
+### **CSV Response:**
+```csv
+id,first_name,last_name,full_name,email,phone,street,city,state,country,postal_code,age,gender,birthday,company,job_title,department
+uuid,John,Doe,John Doe,john.doe@email.com,+1-555-123-4567,123 Main St,New York,NY,United States,10001,28,male,1995-03-15,Tech Corp,Software Engineer,Technology
 ```
 
-### 5. Simple Health Check
-
-**GET** `/ping`
-
-Returns a simple health check response for monitoring.
-
-**Response:**
-```json
-{
-  "status": "OK",
-  "message": "pong",
-  "timestamp": "2023-12-01T14:20:00.000Z"
-}
+### **XML Response:**
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<users>
+  <user id="uuid">
+    <name>
+      <first>John</first>
+      <last>Doe</last>
+      <full>John Doe</full>
+    </name>
+    <email>john.doe@email.com</email>
+    <!-- ... more fields -->
+  </user>
+</users>
 ```
 
-## Data Structure
+## 🚨 **Error Responses**
 
-### User Object
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique UUID identifier |
-| `name` | object | User's name information |
-| `name.first` | string | First name |
-| `name.last` | string | Last name |
-| `name.full` | string | Full name |
-| `email` | string | Email address |
-| `phone` | string | Phone number |
-| `address` | object | Complete address information |
-| `address.street` | string | Street address |
-| `address.city` | string | City |
-| `address.state` | string | State/Province |
-| `address.country` | string | Country |
-| `address.postalCode` | string | Postal/ZIP code |
-| `address.full` | string | Complete formatted address |
-| `profile` | object | Profile information |
-| `profile.photo` | string | Profile photo URL |
-| `profile.age` | number | Age (18-65) |
-| `profile.gender` | string | Gender (male/female) |
-| `profile.birthday` | string | Birthday (YYYY-MM-DD) |
-| `employment` | object | Employment information |
-| `employment.company` | string | Company name |
-| `employment.jobTitle` | string | Job title |
-| `employment.department` | string | Department |
-| `location` | object | Geographic location |
-| `location.coordinates` | object | Latitude and longitude |
-| `createdAt` | string | Account creation date |
-| `updatedAt` | string | Last update date |
-
-## Error Responses
-
-### 400 Bad Request
+### **400 Bad Request:**
 ```json
 {
   "success": false,
@@ -228,80 +223,48 @@ Returns a simple health check response for monitoring.
 }
 ```
 
-### 404 Not Found
+### **404 Not Found:**
 ```json
 {
   "success": false,
   "error": "Endpoint not found",
   "message": "Route /invalid does not exist",
-  "availableEndpoints": ["GET /", "GET /health", "GET /ping", "GET /user", "GET /users"]
+  "availableEndpoints": ["GET /", "GET /health", "GET /ping", "GET /user", "GET /users", "GET /users/csv", "GET /users/xml"]
 }
 ```
 
-### 500 Internal Server Error
+### **429 Rate Limit Exceeded:**
 ```json
 {
   "success": false,
-  "error": "Internal server error",
-  "message": "Failed to generate user data"
+  "error": "Rate limit exceeded",
+  "message": "Too many requests, please upgrade to PRO or ULTRA plan",
+  "upgradeUrl": "https://rapidapi.com/your-api-premium"
 }
 ```
 
-## Usage Examples
+## 📊 **Summary**
 
-### JavaScript (Fetch)
-```javascript
-// Get single user
-fetch('https://fake-user-data-api-wuds.onrender.com/user')
-  .then(response => response.json())
-  .then(data => console.log(data.data));
+| Endpoint | Method | Description | Plan Required |
+|----------|--------|-------------|---------------|
+| `/` | GET | API info & docs | BASIC |
+| `/user` | GET | Single user | BASIC |
+| `/users` | GET | Multiple users | BASIC |
+| `/users/csv` | GET | CSV export | PRO/ULTRA |
+| `/users/xml` | GET | XML export | PRO/ULTRA |
+| `/health` | GET | Detailed health | BASIC |
+| `/ping` | GET | Simple health | BASIC |
 
-// Get multiple users
-fetch('https://fake-user-data-api-wuds.onrender.com/users?count=5')
-  .then(response => response.json())
-  .then(data => console.log(data.data));
-```
+**Total: 7 REST API endpoints** 🎉
 
-### cURL
-```bash
-# Get single user
-curl https://fake-user-data-api-wuds.onrender.com/user
+## 💡 **Usage Tips**
 
-# Get 5 users
-curl https://fake-user-data-api-wuds.onrender.com/users?count=5
-
-# Health check
-curl https://fake-user-data-api-wuds.onrender.com/ping
-```
-
-### Python (requests)
-```python
-import requests
-
-# Get single user
-response = requests.get('https://fake-user-data-api-wuds.onrender.com/user')
-user = response.json()['data']
-
-# Get multiple users
-response = requests.get('https://fake-user-data-api-wuds.onrender.com/users?count=3')
-users = response.json()['data']
-```
-
-## Rate Limits
-
-Currently, there are no rate limits imposed. However, please use responsibly for development and testing purposes.
-
-## Terms of Use
-
-- Use for development and testing only
-- Not for production use with real user data
-- No guarantee of data accuracy or consistency
-- Service availability may vary
-
-## Support
-
-For issues or questions, please refer to the API documentation or contact the developer.
+- **Start with BASIC plan** for testing and development
+- **Upgrade to PRO** for CSV/XML exports and higher limits
+- **Choose ULTRA** for enterprise usage and priority support
+- All endpoints return consistent JSON responses
+- Rate limits apply based on your subscription plan
 
 ---
 
-**Happy coding! 🚀** 
+**Ready to generate realistic test data with ease! 🚀** 

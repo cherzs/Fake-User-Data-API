@@ -34,16 +34,15 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     description: 'An API that generates realistic fake user data for testing and development',
     pricing: {
-      free: '100 requests/month',
-      basic: '$5/month - 1,000 requests',
-      pro: '$15/month - 10,000 requests',
-      enterprise: '$50/month - 100,000 requests'
+      basic: '$0.00/month - 100 requests',
+      pro: '$10.00/month - 1,000 requests',
+      ultra: '$25.00/month - 10,000 requests'
     },
     endpoints: {
       'GET /user': 'Generate 1 fake user',
       'GET /users?count=10': 'Generate multiple fake users (default: 10, max: 100)',
-      'GET /users/csv?count=10': 'Generate users in CSV format (Premium)',
-      'GET /users/xml?count=10': 'Generate users in XML format (Premium)',
+      'GET /users/csv?count=10': 'Generate users in CSV format (PRO/ULTRA)',
+      'GET /users/xml?count=10': 'Generate users in XML format (PRO/ULTRA)',
       'GET /health': 'Health check',
       'GET /ping': 'Simple health check for monitoring'
     },
