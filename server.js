@@ -18,15 +18,18 @@ app.get('/', (req, res) => {
   res.json({
     message: 'Fake User Data API',
     version: '1.0.0',
+    description: 'An API that generates realistic fake user data for testing and development',
     endpoints: {
       'GET /user': 'Generate 1 fake user',
       'GET /users?count=10': 'Generate multiple fake users (default: 10, max: 100)',
-      'GET /health': 'Health check'
+      'GET /health': 'Health check',
+      'GET /ping': 'Simple health check for monitoring'
     },
     example: {
       single: '/user',
       multiple: '/users?count=5'
-    }
+    },
+    documentation: 'https://rapidapi.com/hub/fake-user-data-api'
   });
 });
 
@@ -35,7 +38,18 @@ app.get('/health', (req, res) => {
   res.json({
     status: 'OK',
     timestamp: new Date().toISOString(),
-    uptime: process.uptime()
+    uptime: process.uptime(),
+    version: '1.0.0',
+    service: 'Fake User Data API'
+  });
+});
+
+// Simple ping endpoint for monitoring
+app.get('/ping', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'pong',
+    timestamp: new Date().toISOString()
   });
 });
 
@@ -91,7 +105,7 @@ app.use('*', (req, res) => {
     success: false,
     error: 'Endpoint not found',
     message: `Route ${req.originalUrl} does not exist`,
-    availableEndpoints: ['GET /', 'GET /health', 'GET /user', 'GET /users']
+    availableEndpoints: ['GET /', 'GET /health', 'GET /ping', 'GET /user', 'GET /users']
   });
 });
 
@@ -110,6 +124,7 @@ app.listen(PORT, () => {
   console.log(`📖 Documentation: http://localhost:${PORT}`);
   console.log(`🔗 Try: http://localhost:${PORT}/user`);
   console.log(`🔗 Try: http://localhost:${PORT}/users?count=5`);
+  console.log(`🏥 Health Check: http://localhost:${PORT}/ping`);
 });
 
 module.exports = app; 

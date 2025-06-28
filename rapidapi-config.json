@@ -1,0 +1,135 @@
+{
+  "name": "Fake User Data API",
+  "version": "1.0.0",
+  "description": "An API that generates realistic fake user data, including names, emails, addresses, and phone numbers for testing and development.",
+  "baseUrl": "https://fake-user-data-api-wuds.onrender.com",
+  "endpoints": [
+    {
+      "path": "/",
+      "method": "GET",
+      "description": "API documentation and available endpoints",
+      "response": {
+        "message": "Fake User Data API",
+        "version": "1.0.0",
+        "endpoints": {
+          "GET /user": "Generate 1 fake user",
+          "GET /users?count=10": "Generate multiple fake users (default: 10, max: 100)",
+          "GET /health": "Health check"
+        }
+      }
+    },
+    {
+      "path": "/user",
+      "method": "GET",
+      "description": "Generate a single fake user with complete profile data",
+      "response": {
+        "success": true,
+        "data": {
+          "id": "uuid",
+          "name": {
+            "first": "John",
+            "last": "Doe",
+            "full": "John Doe"
+          },
+          "email": "john.doe@email.com",
+          "phone": "+1-555-123-4567",
+          "address": {
+            "street": "123 Main St",
+            "city": "New York",
+            "state": "NY",
+            "country": "United States",
+            "postalCode": "10001",
+            "full": "123 Main St, New York, NY, United States 10001"
+          },
+          "profile": {
+            "photo": "https://randomuser.me/api/portraits/men/45.jpg",
+            "age": 28,
+            "gender": "male",
+            "birthday": "1995-03-15"
+          },
+          "employment": {
+            "company": "Tech Corp",
+            "jobTitle": "Software Engineer",
+            "department": "Technology"
+          },
+          "location": {
+            "coordinates": {
+              "latitude": 40.7128,
+              "longitude": -74.0060
+            }
+          }
+        }
+      }
+    },
+    {
+      "path": "/users",
+      "method": "GET",
+      "description": "Generate multiple fake users",
+      "parameters": [
+        {
+          "name": "count",
+          "type": "integer",
+          "description": "Number of users to generate (1-100)",
+          "default": 10,
+          "required": false
+        }
+      ],
+      "response": {
+        "success": true,
+        "count": 10,
+        "data": [
+          {
+            "id": "uuid",
+            "name": {
+              "first": "Jane",
+              "last": "Smith",
+              "full": "Jane Smith"
+            },
+            "email": "jane.smith@email.com",
+            "phone": "+1-555-987-6543",
+            "address": {
+              "street": "456 Oak Ave",
+              "city": "Los Angeles",
+              "state": "CA",
+              "country": "United States",
+              "postalCode": "90210",
+              "full": "456 Oak Ave, Los Angeles, CA, United States 90210"
+            },
+            "profile": {
+              "photo": "https://randomuser.me/api/portraits/women/32.jpg",
+              "age": 25,
+              "gender": "female",
+              "birthday": "1998-07-22"
+            },
+            "employment": {
+              "company": "Design Studio",
+              "jobTitle": "UX Designer",
+              "department": "Design"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "path": "/health",
+      "method": "GET",
+      "description": "Health check endpoint",
+      "response": {
+        "status": "OK",
+        "timestamp": "2023-12-01T14:20:00.000Z",
+        "uptime": 3600.5
+      }
+    }
+  ],
+  "tags": [
+    "fake-data",
+    "user-profiles",
+    "testing",
+    "development",
+    "mock-data"
+  ],
+  "category": "Data & Analytics",
+  "visibility": "public",
+  "termsOfUse": "Use for development and testing only. Not for production use with real user data.",
+  "website": "https://github.com/yourusername/fake-user-data-api"
+} 
